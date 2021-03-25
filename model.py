@@ -91,4 +91,7 @@ if __name__ == '__main__':
 
     connect_to_db(app)
 
+## To get data for specific user_id,run command 
+## user_2 = Rating.query.filter(Rating.user_id == "2").all()
+
 
