@@ -1,5 +1,6 @@
 """Models for movie ratings app."""
 
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -38,16 +39,16 @@ class User(db.Model):
 class Movie(db.Model):
     """A movie.""" 
 
-    ___tablename__ = 'movies'
+    __tablename__ = 'movies'
     
-    movie = db.Column(db.Integer,
+    movie_id = db.Column(db.Integer,
                     autoincrement = True,
                     primary_key = True)
     title = db.Column(db.String)
     overview = db.Column(db.Text)
     release_date = db.Column(db.DateTime)
     poster_path = db.Column(db.String)
-
+    
     # ratings = a list of Rating objects
 
     def __repr__(self):
@@ -69,7 +70,7 @@ class Rating(db.Model):
                         db.ForeignKey('users.user_id'))
     
     #Setting up SQLAlchemy relationship between ratings,movies,users
-    movie = db.relationship('Movie', backref='ratings')
+    movie = db.relationship('Movie', backref = 'ratings')
     #rating.movie will return 'movie_id = {self.movie_id} title = {self.title}'
     user = db.relationship('User', backref = 'ratings')
     #rating.user will return 'user_id={self.user_id} email={self.email}'
