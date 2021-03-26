@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}All Movies {% endblock %}
+
+
+
+{% block body %}
+<!-- list of dict(called movies)-->
+<h1> ALL MOVIES </h1>
+
+<ul>
+    {% for movie in movies %}
+    <!--for each nested dictionary in the dictionary -->
+    <li>
+        <a href="/movies/{{ movie.movie_id }}">
+            {{ movie.title }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

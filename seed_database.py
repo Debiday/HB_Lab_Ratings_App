@@ -46,3 +46,6 @@ for n in range(10):
         score = randint(1, 5)
 
         crud.create_rating(user, random_movie, score)
+
+
+_to
