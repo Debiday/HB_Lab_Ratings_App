@@ -47,5 +47,3 @@ for n in range(10):
 
         crud.create_rating(user, random_movie, score)
 
-
-_to

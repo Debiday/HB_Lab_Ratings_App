@@ -47,10 +47,59 @@ def users():
 
 @app.route('/users/<user_id>')
 def show_user(user_id):
+    """show details of user email"""
 
     user = crud.get_user_by_id(user_id)
 
     return render_template('user_details.html', user=user)
+
+@app.route('/users', methods = ["POST"])
+def register_user():
+    """Create a new user."""
+    
+    #get email and password from hompage.html
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = crud.get_user_by_email(email)
+    
+    if user:
+        flash('Email is already in use. Cannot create an account. Try again')
+        
+    else: 
+        crud.create_user(email, password)
+        flash('Account created! Please log in.')
+
+    return redirect('/')
+
+
+@app.route('/login')
+def submit_login_form():
+    """Submits the login form."""
+
+    if session['email'] in crud.get_user_by_email(email):
+        print("loged in")
+    else:
+        print("failed")
+    
+    return redirect('/')
+
+
+
+
+
+    # #Get list of all emails
+    # user = crud.get_user_by_email(email) 
+    # user_password = user.password
+    
+    # #Check if [session's email] is in said list
+    # if session['email'] in user:
+    #     if session['password'] in user_password:
+    #         flash('You have successfully logged in.')
+    # else:
+    # #If user is not in the list
+    #     return redirect('/') 
+
 
 
 if __name__ == '__main__':
