@@ -73,17 +73,40 @@ def register_user():
     return redirect('/')
 
 
-@app.route('/login')
+@app.route('/login', methods = ['POST'])
 def submit_login_form():
     """Submits the login form."""
 
-    if session['email'] in crud.get_user_by_email(email):
-        print("loged in")
+    # get email from you form data
+    user_email = request.form.get('email')
+    user_password = request.form.get('password')
+
+    user_login = crud.get_user_by_email('user_email')
+    users_login = crud.get_users()
+
+    if user_login in users_login:
+        flash("Logged in!")
     else:
-        print("failed")
-    
+        flash("Login Failed.")
+ 
     return redirect('/')
 
+    # user = users.query.filter_by(email=email).first()
+    # if not user: 
+    #     print("user doesn't exist")
+    # else: 
+    #     print("pass")
+
+
+    # # password = request.form.get('password')
+
+    # session['user'] = crud.get_user_by_email(session['email'])
+    
+
+    # if session['user'] in crud.get_user_by_email(email):
+    #     flash("Logged in!")                      
+    
+    # return redirect('/')
 
 
 
@@ -93,7 +116,7 @@ def submit_login_form():
     # user_password = user.password
     
     # #Check if [session's email] is in said list
-    # if session['email'] in user:
+    # if session['email'] in user.email:
     #     if session['password'] in user_password:
     #         flash('You have successfully logged in.')
     # else:
