@@ -77,57 +77,37 @@ def register_user():
 def submit_login_form():
     """Submits the login form."""
 
-    # get email from you form data
-    user_email = request.form.get('email')
-    user_password = request.form.get('password')
+    user = crud.get_user_by_email(request.form['email'])
 
-    user_login = crud.get_user_by_email('user_email')
-    users_login = crud.get_users()
+    password = request.form['password']
 
-    if user_login in users_login:
-        flash("Logged in!")
+    if user == None:
+        flash('''An account for this email doesn't exist yet. 
+                Please create a new account''')
+    elif password != user.password:
+        flash('Wrong password. Please try again.')
     else:
-        flash("Login Failed.")
- 
+        flash('Logged in!')
+        session['user-id'] = user.user_id
+
     return redirect('/')
 
-    # user = users.query.filter_by(email=email).first()
-    # if not user: 
-    #     print("user doesn't exist")
-    # else: 
-    #     print("pass")
 
+    # # get email from you form data
+    # user_email = request.form.get('email')
+    # user_password = request.form.get('password')
 
-    # # password = request.form.get('password')
+    # user_login = crud.get_user_by_email('user_email')
+    # users_login = crud.get_users()
 
-    # session['user'] = crud.get_user_by_email(session['email'])
-    
-
-    # if session['user'] in crud.get_user_by_email(email):
-    #     flash("Logged in!")                      
-    
-    # return redirect('/')
-
-
-
-
-    # #Get list of all emails
-    # user = crud.get_user_by_email(email) 
-    # user_password = user.password
-    
-    # #Check if [session's email] is in said list
-    # if session['email'] in user.email:
-    #     if session['password'] in user_password:
-    #         flash('You have successfully logged in.')
+    # if user_login in users_login:
+    #     flash("Logged in!")
     # else:
-    # #If user is not in the list
-    #     return redirect('/') 
-
+    #     flash("Login Failed.")
+ 
+    # return redirect('/')
 
 
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
-
-
-## user_2 = Rating.query.filter(Rating.user_id == "2").all()
